@@ -43,22 +43,27 @@ param(
 # Documentation: http://technet.microsoft.com/en-us/library/dd819494.aspx
 $menuName = "Solarize"
 
-# FYI - to clear sub-menus do
-# $psISE.CurrentPowerShellTab.AddOnsMenu.Submenus.Clear()
-
 # Create a sub-menu if it does not already exist
 if (!($psISE.CurrentPowerShellTab.AddOnsMenu.Submenus.DisplayName -contains $menuName)) {
-  $solMenu = $psISE.CurrentPowerShellTab.AddOnsMenu.Submenus.Add($menuName,$null,$null)
+  $SolMenu = $psISE.CurrentPowerShellTab.AddOnsMenu.Submenus.Add($menuName,$null,$null)
 
   # Add entries
-  $solScript = "$(Split-Path (Get-Variable MyInvocation).Value.InvocationName)\Solarize-PSISE.ps1"
-  $solMenu.Submenus.Add("Apply Dark palette",{Invoke-Expression "$solScript -Dark"},"Alt+Shift+D") | Out-Null
-  $solMenu.Submenus.Add("Apply Light palette",{Invoke-Expression "$solScript"},"Alt+Shift+L") | Out-Null
+  $Global:SolScript = "$(Split-Path (Get-Variable MyInvocation).Value.InvocationName)\Solarize-PSISE.ps1"
+  $SolMenu.Submenus.Add("Apply Dark palette",{Invoke-Expression "$Global:SolScript -Dark"},"Alt+Shift+D") | Out-Null
+  $SolMenu.Submenus.Add("Apply Light palette",{Invoke-Expression "$Global:SolScript"},"Alt+Shift+L") | Out-Null
 
+  # The $Global: bit above took me a while to figure out. During testing this script worked fine without $Global:
+  # but when trying live $SolScript would not be visible within the Submenus.Add() scriptblock. I think this is because
+  # while testing I was just dot sourcing the script but when trying live I was running it as a script and so 
+  # variable scopes came into play. What happens then is that the Submenus.Add() is in a scope of its own - think of it like 
+  # a function you are calling - and so if you want it to access a global variable you must define it that way. There's no way
+  # of passing a variable to this function, so the only alternative is to use global variables. Hence define the variable as 
+  # $Global:whatever and refernce it as $Global:whatever everywhere. 
+  # A good demo of Global variables can be found at http://www.dotnetscraps.com/dotnetscraps/post/PowerShell-Tip-15-Global-Variables.aspx
   Write-Verbose "Created Submenu $menuName and entries"
 } `
 else { Write-Verbose "Submenu $menuName already exists. Not creating anything" }
 
 # Apply the colors if the users has passed parameters to do so
-if ($apply -and $dark) { Write-Verbose "Applying the dark palette"; Invoke-Expression "$solScript -Dark" }
-if ($apply -and !$dark) { Write-Verbose "Applying the light palette"; Invoke-Expression "$solScript" }
+if ($apply -and $dark) { Write-Verbose "Applying the dark palette"; Invoke-Expression "$Global:SolScript -Dark" }
+if ($apply -and !$dark) { Write-Verbose "Applying the light palette"; Invoke-Expression "$Global:SolScript" }
