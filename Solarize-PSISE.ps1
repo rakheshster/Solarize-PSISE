@@ -65,69 +65,110 @@ $fontsize = 12
 $darktheme = $true
 
 # The actual action starts here.
-## Script pane & Command pane background colors.
-$psISE.Options.ScriptPaneBackgroundColor = if ($darktheme) { $base03 } else { $base3 }
-$psISE.Options.CommandPaneBackgroundColor = if ($darktheme) { $base03 } else { $base3 }
+switch ($PSVersionTable.PSVersion.Major) {
+  2 
+  {
+    ## Script pane & Command pane background colors.
+    $psISE.Options.ScriptPaneBackgroundColor = if ($darktheme) { $base03 } else { $base3 }
+    $psISE.Options.CommandPaneBackgroundColor = if ($darktheme) { $base03 } else { $base3 }
 
-## Attributes are items like [CmdletBinding()], [Parameter] etc in function definitions.
-$psISE.Options.TokenColors.Item("Attribute") = $yellow
 
-## Cmdlets, their arguments & parameters.
-$psISE.Options.TokenColors.Item("Command") = if ($darktheme) { $base1 } else { $base01 }
-$psISE.Options.TokenColors.Item("CommandArgument") = $blue
-$psISE.Options.TokenColors.Item("CommandParameter") = $red
+  }
+  3
+  {
+    ## For PowerShell 3 we do the above and also colorize the tokens in the Output Pane
+    ## Skipping comments coz it's the same as above anyway
+    $psISE.Options.ConsoleTokenColors.Item("Attribute") = $yellow
+    $psISE.Options.ConsoleTokenColors.Item("Command") = if ($darktheme) { $base1 } else { $base01 }
+    $psISE.Options.ConsoleTokenColors.Item("CommandArgument") = $blue
+    $psISE.Options.ConsoleTokenColors.Item("CommandParameter") = $red
+    $psISE.Options.ConsoleTokenColors.Item("Comment") = if ($darktheme) { $base01 } else { $base1 }
+    $psISE.Options.ConsoleTokenColors.Item("GroupEnd") = if ($darktheme) { $base1 } else { $base01 }
+    $psISE.Options.ConsoleTokenColors.Item("GroupStart") = if ($darktheme) { $base1 } else { $base01 }
+    $psISE.Options.ConsoleTokenColors.Item("Keyword") = $green
+    $psISE.Options.ConsoleTokenColors.Item("LineContinuation") = if ($darktheme) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("LoopLabel") = if ($darktheme) { $base1 } else { $base01 }
+    $psISE.Options.ConsoleTokenColors.Item("Member") = if ($darktheme) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("NewLine") = if ($darktheme) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("Number") = $cyan
+    $psISE.Options.ConsoleTokenColors.Item("Operator") = if ($darktheme) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("Position") = if ($darktheme) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("StatementSeparator") = if ($darktheme) { $base1 } else { $base01 }
+    $psISE.Options.ConsoleTokenColors.Item("String") = $cyan
+    $psISE.Options.ConsoleTokenColors.Item("Type") = $violet
+    $psISE.Options.ConsoleTokenColors.Item("Unknown") = if ($darktheme) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("Variable") = $orange
+  }
+  default
+  {
+    ## Attributes are items like [CmdletBinding()], [Parameter] etc in function definitions.
+    $psISE.Options.TokenColors.Item("Attribute") = $yellow
 
-## Comments.
-$psISE.Options.TokenColors.Item("Comment") = if ($darktheme) { $base01 } else { $base1 }
+    ## Cmdlets, their arguments & parameters.
+    $psISE.Options.TokenColors.Item("Command") = if ($darktheme) { $base1 } else { $base01 }
+    $psISE.Options.TokenColors.Item("CommandArgument") = $blue
+    $psISE.Options.TokenColors.Item("CommandParameter") = $red
 
-## Brackets etc.
-$psISE.Options.TokenColors.Item("GroupEnd") = if ($darktheme) { $base1 } else { $base01 }
-$psISE.Options.TokenColors.Item("GroupStart") = if ($darktheme) { $base1 } else { $base01 }
+    ## Comments.
+    $psISE.Options.TokenColors.Item("Comment") = if ($darktheme) { $base01 } else { $base1 }
 
-## Keywords (if, while, etc).
-$psISE.Options.TokenColors.Item("Keyword") = $green
+    ## Brackets etc.
+    $psISE.Options.TokenColors.Item("GroupEnd") = if ($darktheme) { $base1 } else { $base01 }
+    $psISE.Options.TokenColors.Item("GroupStart") = if ($darktheme) { $base1 } else { $base01 }
 
-## !!LATER!! Not really sure what this is, so setting this to the default color.
-$psISE.Options.TokenColors.Item("LineContinuation") = if ($darktheme) { $base0 } else { $base00 }
+    ## Keywords (if, while, etc).
+    $psISE.Options.TokenColors.Item("Keyword") = $green
 
-## !!LATER!! Not really sure what this is, but since it's a label I'm setting it to the highlight color.
-$psISE.Options.TokenColors.Item("LoopLabel") = if ($darktheme) { $base1 } else { $base01 }
+    ## !!LATER!! Not really sure what this is, so setting this to the default color.
+    $psISE.Options.TokenColors.Item("LineContinuation") = if ($darktheme) { $base0 } else { $base00 }
 
-## Members.
-$psISE.Options.TokenColors.Item("Member") = if ($darktheme) { $base0 } else { $base00 }
+    ## !!LATER!! Not really sure what this is, but since it's a label I'm setting it to the highlight color.
+    $psISE.Options.TokenColors.Item("LoopLabel") = if ($darktheme) { $base1 } else { $base01 }
 
-## !!LATER!! Not really sure what this is, so setting this to the default color.
-$psISE.Options.TokenColors.Item("NewLine") = if ($darktheme) { $base0 } else { $base00 }
+    ## Members.
+    $psISE.Options.TokenColors.Item("Member") = if ($darktheme) { $base0 } else { $base00 }
 
-## Numbers (even as array indexes).
-$psISE.Options.TokenColors.Item("Number") = $cyan
+    ## !!LATER!! Not really sure what this is, so setting this to the default color.
+    $psISE.Options.TokenColors.Item("NewLine") = if ($darktheme) { $base0 } else { $base00 }
 
-## Operators (+, += etc).
-$psISE.Options.TokenColors.Item("Operator") = if ($darktheme) { $base0 } else { $base00 }
+    ## Numbers (even as array indexes).
+    $psISE.Options.TokenColors.Item("Number") = $cyan
 
-## !!LATER!! Not really sure what this is, so setting this to the default color.
-$psISE.Options.TokenColors.Item("Position") = if ($darktheme) { $base0 } else { $base00 }
+    ## Operators (+, += etc).
+    $psISE.Options.TokenColors.Item("Operator") = if ($darktheme) { $base0 } else { $base00 }
 
-## Statement separators (semicolon etc).
-$psISE.Options.TokenColors.Item("StatementSeparator") = if ($darktheme) { $base1 } else { $base01 }
+    ## !!LATER!! Not really sure what this is, so setting this to the default color.
+    $psISE.Options.TokenColors.Item("Position") = if ($darktheme) { $base0 } else { $base00 }
 
-## String.
-$psISE.Options.TokenColors.Item("String") = $cyan
+    ## Statement separators (semicolon etc).
+    $psISE.Options.TokenColors.Item("StatementSeparator") = if ($darktheme) { $base1 } else { $base01 }
 
-## Type defintions ([int32] etc).
-$psISE.Options.TokenColors.Item("Type") = $violet
+    ## String.
+    $psISE.Options.TokenColors.Item("String") = $cyan
 
-## Unknown items (this is the color you will see while typing and before it's actually colored.
-$psISE.Options.TokenColors.Item("Unknown") = if ($darktheme) { $base0 } else { $base00 }
+    ## Type defintions ([int32] etc).
+    $psISE.Options.TokenColors.Item("Type") = $violet
 
-## Variables.
-$psISE.Options.TokenColors.Item("Variable") = $orange
+    ## Unknown items (this is the color you will see while typing and before it's actually colored.
+    $psISE.Options.TokenColors.Item("Unknown") = if ($darktheme) { $base0 } else { $base00 }
+
+    ## Variables.
+    $psISE.Options.TokenColors.Item("Variable") = $orange
+  }
+}
 
 ## Output pane colors
 ## Sticking with the dark theme for output pane and its elements. 
 ## Setting background color as that of dark theme. And foreground color as emphasized text. 
-$psISE.Options.OutputPaneBackgroundColor = $psISE.Options.OutputPaneTextBackgroundColor = $base03
-$psISE.Options.OutputPaneForegroundColor = $base1
+if ($PSVersionTable.PSVersion.Major -eq 2) {
+  $psISE.Options.OutputPaneBackgroundColor = $psISE.Options.OutputPaneTextBackgroundColor = $base03
+  $psISE.Options.OutputPaneForegroundColor = $base1
+}
+
+if ($PSVersionTable.PSVersion.Major -eq 3) {
+  $psISE.Options.ConsolePaneBackgroundColor = $base03
+  $psISE.Options.ConsolePaneForegroundColor = $base1
+}
 
 ## Other elements of the output pane 
 ## Setting the background to highlighted text of dark theme. 
