@@ -37,9 +37,51 @@ Pane colors can be set via $psISE.Options.CommandPaneBackgroundColor etc.
 See http://technet.microsoft.com/en-us/library/dd819482.aspx
 #>
 
+<#
+.SYNOPSIS
+Sets the colors of the PowerShell ISE from the Solarized color palette. 
+
+.DESCRIPTION
+Solarized is a sixteen color palette (eight monotones, eight accent colors) designed for use with terminal and GUI applications. You can read more about it at http://ethanschoonover.com/solarized.
+
+This script sets the colors of your PowerShell ISE from the Solarized color palette. Without parameters it sets colors from the light palette. With parameters it sets colors from the dark palette.
+
+It works with both PowerShell 2.0 and 3.0 ISE. Only the Script pane colors can be changed between light and dark; the Output/ Command/ Console pane colors are always set to dark. 
+
+.PARAMETER Dark
+If specified, colors are set from the dark palette. 
+
+This parameter is optional. If not specified colors are set from the light palette. 
+
+.EXAMPLE
+Solarize-PSISE -Dark
+
+To set colors from the dark palette. 
+
+.EXAMPLE
+Solarize-PSISE
+
+To set colors from the light palette. 
+
+.LINK
+http://ethanschoonover.com/solarized
+
+.LINK
+https://github.com/rakheshster/Solarize-PSISE
+
+.NOTES
+Future versions should allow users to specify Font Name and Size via parameters. 
+
+Future version could also include a switch to set the Output/ Command/ Console pane colors along with Script pane colors. 
+#>
+
 # Defining a switch parameter which lets you flick between dark and light themes
-# If $DarkTheme is set the dark theme is used; else it's the light theme.
-param([switch]$DarkTheme)
+# If $Dark is set the dark theme is used; else it's the light theme.
+param(
+  [parameter(Mandatory=$false)]
+  [Switch]
+  $Dark
+)
 
 # Global Definitions
 ## Variables for the colors codes
@@ -69,8 +111,8 @@ $fontsize = 10
 
 # The actual action starts here.
 # The Script pane is common to both PowerShell 2.0 and 3.0 ISE. Defining its colors & fonts here.
-$psISE.Options.ScriptPaneBackgroundColor = if ($DarkTheme) { $base03 } else { $base3 }
-$psISE.Options.ScriptPaneForegroundColor = if ($DarkTheme) { $base0 } else { $base00 }
+$psISE.Options.ScriptPaneBackgroundColor = if ($Dark) { $base03 } else { $base3 }
+$psISE.Options.ScriptPaneForegroundColor = if ($Dark) { $base0 } else { $base00 }
 
 $psISE.Options.FontName = $font
 $psISE.Options.FontSize = $fontsize
@@ -79,43 +121,43 @@ $psISE.Options.FontSize = $fontsize
 $psISE.Options.TokenColors.Item("Attribute") = $yellow
 
 # Cmdlets, their arguments & parameters.
-$psISE.Options.TokenColors.Item("Command") = if ($DarkTheme) { $base1 } else { $base01 }
+$psISE.Options.TokenColors.Item("Command") = if ($Dark) { $base1 } else { $base01 }
 $psISE.Options.TokenColors.Item("CommandArgument") = $blue
 $psISE.Options.TokenColors.Item("CommandParameter") = $red
 
 # Comments.
-$psISE.Options.TokenColors.Item("Comment") = if ($DarkTheme) { $base01 } else { $base1 }
+$psISE.Options.TokenColors.Item("Comment") = if ($Dark) { $base01 } else { $base1 }
 
 # Brackets etc.
-$psISE.Options.TokenColors.Item("GroupEnd") = if ($DarkTheme) { $base1 } else { $base01 }
-$psISE.Options.TokenColors.Item("GroupStart") = if ($DarkTheme) { $base1 } else { $base01 }
+$psISE.Options.TokenColors.Item("GroupEnd") = if ($Dark) { $base1 } else { $base01 }
+$psISE.Options.TokenColors.Item("GroupStart") = if ($Dark) { $base1 } else { $base01 }
 
 # Keywords (if, while, etc).
 $psISE.Options.TokenColors.Item("Keyword") = $green
 
 # Not really sure what this is, so setting this to the default color.
-$psISE.Options.TokenColors.Item("LineContinuation") = if ($DarkTheme) { $base0 } else { $base00 }
+$psISE.Options.TokenColors.Item("LineContinuation") = if ($Dark) { $base0 } else { $base00 }
 
 # Not really sure what this is, but since it's a label I'm setting it to the highlight color.
-$psISE.Options.TokenColors.Item("LoopLabel") = if ($DarkTheme) { $base1 } else { $base01 }
+$psISE.Options.TokenColors.Item("LoopLabel") = if ($Dark) { $base1 } else { $base01 }
 
 # Members.
-$psISE.Options.TokenColors.Item("Member") = if ($DarkTheme) { $base0 } else { $base00 }
+$psISE.Options.TokenColors.Item("Member") = if ($Dark) { $base0 } else { $base00 }
 
 # Not really sure what this is, so setting this to the default color.
-$psISE.Options.TokenColors.Item("NewLine") = if ($DarkTheme) { $base0 } else { $base00 }
+$psISE.Options.TokenColors.Item("NewLine") = if ($Dark) { $base0 } else { $base00 }
 
 # Numbers (even as array indexes).
 $psISE.Options.TokenColors.Item("Number") = $cyan
 
 # Operators (+, += etc).
-$psISE.Options.TokenColors.Item("Operator") = if ($DarkTheme) { $base0 } else { $base00 }
+$psISE.Options.TokenColors.Item("Operator") = if ($Dark) { $base0 } else { $base00 }
 
 # Not really sure what this is, so setting this to the default color.
-$psISE.Options.TokenColors.Item("Position") = if ($DarkTheme) { $base0 } else { $base00 }
+$psISE.Options.TokenColors.Item("Position") = if ($Dark) { $base0 } else { $base00 }
 
 # Statement separators (semicolon etc).
-$psISE.Options.TokenColors.Item("StatementSeparator") = if ($DarkTheme) { $base1 } else { $base01 }
+$psISE.Options.TokenColors.Item("StatementSeparator") = if ($Dark) { $base1 } else { $base01 }
 
 # String.
 $psISE.Options.TokenColors.Item("String") = $cyan
@@ -124,7 +166,7 @@ $psISE.Options.TokenColors.Item("String") = $cyan
 $psISE.Options.TokenColors.Item("Type") = $violet
 
 # Unknown items (I this is the color you will see while typing and before it's actually colored.
-$psISE.Options.TokenColors.Item("Unknown") = if ($DarkTheme) { $base0 } else { $base00 }
+$psISE.Options.TokenColors.Item("Unknown") = if ($Dark) { $base0 } else { $base00 }
 
 # Variables.
 $psISE.Options.TokenColors.Item("Variable") = $orange
@@ -133,10 +175,10 @@ $psISE.Options.TokenColors.Item("Variable") = $orange
 switch ($PSVersionTable.PSVersion.Major) {
   2 
   {
-    # PowerShell 2.0 ISE specific stuff go here. For instance, the Command pane & Output pane colors.
+    # PowerShell 2.0 ISE specific stuff go here. Command pane & Output pane colors.
     # Command pane background colors.
     # Can't set the foreground color as that's taken from the Script pane foreground color.
-    $psISE.Options.CommandPaneBackgroundColor = if ($DarkTheme) { $base03 } else { $base3 }
+    $psISE.Options.CommandPaneBackgroundColor = if ($Dark) { $base03 } else { $base3 }
   
     # Output pane colors.
     $psISE.Options.OutputPaneBackgroundColor = $psISE.Options.OutputPaneTextBackgroundColor = $base03
@@ -145,34 +187,38 @@ switch ($PSVersionTable.PSVersion.Major) {
   }
   3 
   {
-    # PowerShell 3.0 ISE specific stuff go here. Does not have the Command pane & Output pane. 
-    # Instead, it has a Console pane that is essentially the Command & Output panes combined. And it supports token colors! W00t!
+    # PowerShell 3.0 ISE specific stuff go here. No Command pane & Output pane. 
+    # Has a Console pane that is essentially the Command & Output panes combined and supports token colors! W00t!
 
     # Console pane colors.
     $psISE.Options.ConsolePaneBackgroundColor = $psISE.Options.ConsolePaneTextBackgroundColor = $base03
     $psISE.Options.ConsolePaneForegroundColor = $base1
 
-    # Token colors in the console pane. Skipping comments as these are same as the token definitions in the Script pane (defined below).
+    # Token colors in the console pane. Skipping comments as these are same as the token definitions in the Script pane (defined above).
     $psISE.Options.ConsoleTokenColors.Item("Attribute") = $yellow
-    $psISE.Options.ConsoleTokenColors.Item("Command") = if ($DarkTheme) { $base1 } else { $base01 }
+    $psISE.Options.ConsoleTokenColors.Item("Command") = if ($Dark) { $base1 } else { $base01 }
     $psISE.Options.ConsoleTokenColors.Item("CommandArgument") = $blue
     $psISE.Options.ConsoleTokenColors.Item("CommandParameter") = $red
-    $psISE.Options.ConsoleTokenColors.Item("Comment") = if ($DarkTheme) { $base01 } else { $base1 }
-    $psISE.Options.ConsoleTokenColors.Item("GroupEnd") = if ($DarkTheme) { $base1 } else { $base01 }
-    $psISE.Options.ConsoleTokenColors.Item("GroupStart") = if ($DarkTheme) { $base1 } else { $base01 }
+    $psISE.Options.ConsoleTokenColors.Item("Comment") = if ($Dark) { $base01 } else { $base1 }
+    $psISE.Options.ConsoleTokenColors.Item("GroupEnd") = if ($Dark) { $base1 } else { $base01 }
+    $psISE.Options.ConsoleTokenColors.Item("GroupStart") = if ($Dark) { $base1 } else { $base01 }
     $psISE.Options.ConsoleTokenColors.Item("Keyword") = $green
-    $psISE.Options.ConsoleTokenColors.Item("LineContinuation") = if ($DarkTheme) { $base0 } else { $base00 }
-    $psISE.Options.ConsoleTokenColors.Item("LoopLabel") = if ($DarkTheme) { $base1 } else { $base01 }
-    $psISE.Options.ConsoleTokenColors.Item("Member") = if ($DarkTheme) { $base0 } else { $base00 }
-    $psISE.Options.ConsoleTokenColors.Item("NewLine") = if ($DarkTheme) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("LineContinuation") = if ($Dark) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("LoopLabel") = if ($Dark) { $base1 } else { $base01 }
+    $psISE.Options.ConsoleTokenColors.Item("Member") = if ($Dark) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("NewLine") = if ($Dark) { $base0 } else { $base00 }
     $psISE.Options.ConsoleTokenColors.Item("Number") = $cyan
-    $psISE.Options.ConsoleTokenColors.Item("Operator") = if ($DarkTheme) { $base0 } else { $base00 }
-    $psISE.Options.ConsoleTokenColors.Item("Position") = if ($DarkTheme) { $base0 } else { $base00 }
-    $psISE.Options.ConsoleTokenColors.Item("StatementSeparator") = if ($DarkTheme) { $base1 } else { $base01 }
+    $psISE.Options.ConsoleTokenColors.Item("Operator") = if ($Dark) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("Position") = if ($Dark) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("StatementSeparator") = if ($Dark) { $base1 } else { $base01 }
     $psISE.Options.ConsoleTokenColors.Item("String") = $cyan
     $psISE.Options.ConsoleTokenColors.Item("Type") = $violet
-    $psISE.Options.ConsoleTokenColors.Item("Unknown") = if ($DarkTheme) { $base0 } else { $base00 }
+    $psISE.Options.ConsoleTokenColors.Item("Unknown") = if ($Dark) { $base0 } else { $base00 }
     $psISE.Options.ConsoleTokenColors.Item("Variable") = $orange
+
+    # When you hover over the outlining lines there's a brief flash of white background in the script pane
+    # I don't know any workaround so I disable Outlining altogether. 
+    $psISE.Options.ShowOutlining = $false
   }
   default
   {
