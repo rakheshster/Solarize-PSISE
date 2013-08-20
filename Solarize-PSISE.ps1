@@ -44,7 +44,7 @@ Sets the colors of the PowerShell ISE from the Solarized color palette.
 .DESCRIPTION
 Solarized is a sixteen color palette (eight monotones, eight accent colors) designed for use with terminal and GUI applications. You can read more about it at http://ethanschoonover.com/solarized.
 
-This script sets the colors of your PowerShell ISE from the Solarized color palette. Without parameters it sets colors from the light palette. With parameters it sets colors from the dark palette.
+This script sets the colors of your PowerShell ISE from the Solarized color palette. Without any switches it sets colors from the light palette. With the correct it sets colors from the dark palette.
 
 It works with both PowerShell 2.0 and 3.0 ISE. Only the Script pane colors can be changed between light and dark; the Output/ Command/ Console pane colors are always set to dark. 
 
@@ -235,3 +235,5 @@ switch ($PSVersionTable.PSVersion.Major) {
     $psISE.Options.DebugForegroundColor = $blue  
   }
 }
+
+Write-Verbose "All done!"
