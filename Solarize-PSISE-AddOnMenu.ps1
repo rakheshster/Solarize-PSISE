@@ -60,6 +60,8 @@ if (!($psISE.CurrentPowerShellTab.AddOnsMenu.Submenus.DisplayName -contains $men
   # of passing a variable to this function, so the only alternative is to use global variables. Hence define the variable as 
   # $Global:whatever and refernce it as $Global:whatever everywhere. 
   # A good demo of Global variables can be found at http://www.dotnetscraps.com/dotnetscraps/post/PowerShell-Tip-15-Global-Variables.aspx
+  # Thanks to http://poshcode.org/2247 where I got a hint of the solution from.
+  
   Write-Verbose "Created Submenu $menuName and entries"
 } `
 else { Write-Verbose "Submenu $menuName already exists. Not creating anything" }
