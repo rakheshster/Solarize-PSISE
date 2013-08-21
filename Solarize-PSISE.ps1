@@ -53,6 +53,11 @@ If specified, colors are set from the dark palette.
 
 This parameter is optional. If not specified colors are set from the light palette. 
 
+.PARAMETER FontSize
+If specified, sets the font size. 
+
+This parameter is optional. If not specified size 10 is used. 
+
 .EXAMPLE
 Solarize-PSISE -Dark
 
@@ -70,7 +75,7 @@ http://ethanschoonover.com/solarized
 https://github.com/rakheshster/Solarize-PSISE
 
 .NOTES
-Future versions should allow users to specify Font Name and Size via parameters. 
+Future versions should allow users to specify Font Name via parameters. 
 
 Future version could also include a switch to set the Output/ Command/ Console pane colors along with Script pane colors. 
 #>
@@ -80,7 +85,11 @@ Future version could also include a switch to set the Output/ Command/ Console p
 param(
   [parameter(Mandatory=$false)]
   [Switch]
-  $Dark
+  $Dark,
+
+  [parameter(Mandatory=$false)]
+  [int32]
+  $FontSize = 10
 )
 
 # Global Definitions
@@ -105,17 +114,15 @@ $green    = "#859900"
 ## Variables for the fonts
 ## These are the default PowerShell font and size; change if you want to.
 ## !!TODO!! allow users to specify this on the command line? Obviously check with the installed fonts to validate. 
-$font     = "Lucida Console"
-$fontsize = 10
-
+$Font     = "Lucida Console"
 
 # The actual action starts here.
 # The Script pane is common to both PowerShell 2.0 and 3.0 ISE. Defining its colors & fonts here.
 $psISE.Options.ScriptPaneBackgroundColor = if ($Dark) { $base03 } else { $base3 }
 $psISE.Options.ScriptPaneForegroundColor = if ($Dark) { $base0 } else { $base00 }
 
-$psISE.Options.FontName = $font
-$psISE.Options.FontSize = $fontsize
+$psISE.Options.FontName = $Font
+$psISE.Options.FontSize = $FontSize
 
 # Attributes are items like [CmdletBinding()], [Parameter] etc in function definitions.
 $psISE.Options.TokenColors.Item("Attribute") = $yellow
