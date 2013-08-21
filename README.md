@@ -14,14 +14,17 @@ There are two files.
 Typing `help` (or `get-help`) followed by the script name will give you more details. In a nutshell `Solarize-PSISE.ps1` has just one switch `-Dark` that determines whether the dark or light palette is used. And `Solarize-PSISE-AddOnMenu.ps1` has two switches: `-Apply` tells it to also apply the palette (light by default), and `-Dark` specifies that the dark palette is to be applied. 
 
 ## Installation
-1. Copy both files to the same location. For example: `My Documents\Windows PowerShell\Solarize-PSISE`. 
+1. Copy both scripts to the same location. 
 
 2. Open your PowerShell ISE `$profile`.
   
-  The quickest way would be to launch the ISE, go to the console pane, and type `notepad $profile`. This will open Notepad with the `$profile` file loaded. 
+  If you don't know how, or are unsure whether you have a `$profile` copy-paste the following in the console pane/ command pane in PowerShell ISE and press enter:
   
-  If you don't already have a `$profile` file, type `New-Item -ItemType file -Path $profile -Force` in the console pane first, and then `notepad $profile`. This will create an empty `$profile` file and load it in Notepad. 
-
+        if(!(Test-Path $profile)) { New-Item -ItemType File -Path $profile -Force }
+        $psISE.CurrentPowerShellTab.Files.Add($profile)`
+  
+  This will create the `$profile` file if it doesn't exist. And then open a new tab with this file loaded. 
+  
 3. Add a line such as the following to the `$profile` file: `\path\to\files\Solarize-PSISE-AddOnMenu.ps1 -Apply -Dark`
 
 4. Close and open PowerShell ISE. You will notice the dark Solarized palette colors are applied. Also there will be a submenu under Add-ons with two menu items. 
