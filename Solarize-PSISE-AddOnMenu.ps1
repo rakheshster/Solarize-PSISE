@@ -52,14 +52,17 @@ param(
 # Documentation: http://technet.microsoft.com/en-us/library/dd819494.aspx
 $menuName = "Solarize"
 
+# Set the fontsize in a global paramter so we can pass it to the menu creating bit later
+$Global:FontSize = $FontSize
+
 # Create a sub-menu if it does not already exist
 if (!($psISE.CurrentPowerShellTab.AddOnsMenu.Submenus.DisplayName -contains $menuName)) {
   $SolMenu = $psISE.CurrentPowerShellTab.AddOnsMenu.Submenus.Add($menuName,$null,$null)
 
   # Add entries
   $Global:SolScript = "$(Split-Path (Get-Variable MyInvocation).Value.InvocationName)\Solarize-PSISE.ps1"
-  $SolMenu.Submenus.Add("Apply Dark palette",{Invoke-Expression "$Global:SolScript -Dark -FontSize $FontSize"},"Alt+Shift+D") | Out-Null
-  $SolMenu.Submenus.Add("Apply Light palette",{Invoke-Expression "$Global:SolScript -FontSize $FontSize"},"Alt+Shift+L") | Out-Null
+  $SolMenu.Submenus.Add("Apply Dark palette",{Invoke-Expression "$Global:SolScript -Dark -FontSize $Global:FontSize"},"Alt+Shift+D") | Out-Null
+  $SolMenu.Submenus.Add("Apply Light palette",{Invoke-Expression "$Global:SolScript -FontSize $Global:FontSize"},"Alt+Shift+L") | Out-Null
 
   # The $Global: bit above took me a while to figure out. During testing this script worked fine without $Global:
   # but when trying live $SolScript would not be visible within the Submenus.Add() scriptblock. I think this is because
@@ -76,5 +79,5 @@ if (!($psISE.CurrentPowerShellTab.AddOnsMenu.Submenus.DisplayName -contains $men
 else { Write-Verbose "Submenu $menuName already exists. Not creating anything" }
 
 # Apply the colors if the users has passed parameters to do so
-if ($apply -and $dark) { Write-Verbose "Applying the dark palette"; Invoke-Expression "$Global:SolScript -Dark -FontSize $FontSize" }
-if ($apply -and !$dark) { Write-Verbose "Applying the light palette"; Invoke-Expression "$Global:SolScript -FontSize $FontSize" }
+if ($apply -and $dark) { Write-Verbose "Applying the dark palette, font size $Global:FontSize"; Invoke-Expression "$Global:SolScript -Dark -FontSize $Global:FontSize" }
+if ($apply -and !$dark) { Write-Verbose "Applying the light palette, font size $Global:FontSize"; Invoke-Expression "$Global:SolScript -FontSize $Global:FontSize" }
