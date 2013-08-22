@@ -178,6 +178,18 @@ $psISE.Options.TokenColors.Item("Unknown") = if ($Dark) { $base0 } else { $base0
 # Variables.
 $psISE.Options.TokenColors.Item("Variable") = $orange
 
+# Setting the background color of various messages to that of highlighted text of dark theme. 
+$psISE.Options.ErrorBackgroundColor = $base02
+$psISE.Options.WarningBackgroundColor = $base02
+$psISE.Options.VerboseBackgroundColor = $base02
+$psISE.Options.DebugBackgroundColor = $base02
+
+# I read somewhere that error messages are better off being in a different color than $red so as to not put you off.
+$psISE.Options.ErrorForegroundColor = $green
+$psISE.Options.WarningForegroundColor = $orange
+$psISE.Options.VerboseForegroundColor = $yellow
+$psISE.Options.DebugForegroundColor = $blue  
+
 # Now for the PowerShell ISE version specific stuff
 switch ($PSVersionTable.PSVersion.Major) {
   2 
@@ -226,20 +238,6 @@ switch ($PSVersionTable.PSVersion.Major) {
     # When you hover over the outlining lines there's a brief flash of white background in the script pane
     # I don't know any workaround so I disable Outlining altogether. 
     $psISE.Options.ShowOutlining = $false
-  }
-  default
-  {
-    # Setting the background color of various messages to that of highlighted text of dark theme. 
-    $psISE.Options.ErrorBackgroundColor = $base02
-    $psISE.Options.WarningBackgroundColor = $base02
-    $psISE.Options.VerboseBackgroundColor = $base02
-    $psISE.Options.DebugBackgroundColor = $base02
-
-    # I read somewhere that error messages are better off being in a different color than $red so as to not put you off.
-    $psISE.Options.ErrorForegroundColor = $green
-    $psISE.Options.WarningForegroundColor = $orange
-    $psISE.Options.VerboseForegroundColor = $yellow
-    $psISE.Options.DebugForegroundColor = $blue  
   }
 }
 
