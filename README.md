@@ -21,7 +21,7 @@ Typing `help` (or `get-help`) followed by the script name will give you more det
   If you don't know how, or are unsure whether you have a `$profile` copy-paste the following in the console pane/ command pane in PowerShell ISE and press enter:
   
         if(!(Test-Path $profile)) { New-Item -ItemType File -Path $profile -Force }
-        $psISE.CurrentPowerShellTab.Files.Add($profile)`
+        $psISE.CurrentPowerShellTab.Files.Add($profile)
   
   This will create the `$profile` file if it doesn't exist. And then open a new tab with this file loaded. 
   
