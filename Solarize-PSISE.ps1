@@ -191,54 +191,48 @@ $psISE.Options.VerboseForegroundColor = $yellow
 $psISE.Options.DebugForegroundColor = $blue  
 
 # Now for the PowerShell ISE version specific stuff
-switch ($PSVersionTable.PSVersion.Major) {
-  2 
-  {
-    # PowerShell 2.0 ISE specific stuff go here. Command pane & Output pane colors.
-    # Command pane background colors.
-    # Can't set the foreground color as that's taken from the Script pane foreground color.
-    $psISE.Options.CommandPaneBackgroundColor = if ($Dark) { $base03 } else { $base3 }
-  
-    # Output pane colors.
-    $psISE.Options.OutputPaneBackgroundColor = $psISE.Options.OutputPaneTextBackgroundColor = $base03
-    $psISE.Options.OutputPaneForegroundColor = $base1
+if ($PSVersionTable.PSVersion.Major -eq 2) {
+  # PowerShell 2.0 ISE specific stuff go here. Command pane & Output pane colors.
+  # Command pane background colors.
+  # Can't set the foreground color as that's taken from the Script pane foreground color.
+  $psISE.Options.CommandPaneBackgroundColor = if ($Dark) { $base03 } else { $base3 }
 
-  }
-  3 
-  {
-    # PowerShell 3.0 ISE specific stuff go here. No Command pane & Output pane. 
-    # Has a Console pane that is essentially the Command & Output panes combined and supports token colors! W00t!
+  # Output pane colors.
+  $psISE.Options.OutputPaneBackgroundColor = $psISE.Options.OutputPaneTextBackgroundColor = $base03
+  $psISE.Options.OutputPaneForegroundColor = $base1
+} else {
+  # PowerShell 3.0 ISE and later specific stuff go here. No Command pane & Output pane. 
+  # Has a Console pane that is essentially the Command & Output panes combined and supports token colors! W00t!
 
-    # Console pane colors.
-    $psISE.Options.ConsolePaneBackgroundColor = $psISE.Options.ConsolePaneTextBackgroundColor = $base03
-    $psISE.Options.ConsolePaneForegroundColor = $base1
+  # Console pane colors.
+  $psISE.Options.ConsolePaneBackgroundColor = $psISE.Options.ConsolePaneTextBackgroundColor = if ($Dark) { $base03 } else { $base3 }
+  $psISE.Options.ConsolePaneForegroundColor = if ($Dark) { $base0 } else { $base00 }
 
-    # Token colors in the console pane. Skipping comments as these are same as the token definitions in the Script pane (defined above).
-    $psISE.Options.ConsoleTokenColors.Item("Attribute") = $yellow
-    $psISE.Options.ConsoleTokenColors.Item("Command") = if ($Dark) { $base1 } else { $base01 }
-    $psISE.Options.ConsoleTokenColors.Item("CommandArgument") = $blue
-    $psISE.Options.ConsoleTokenColors.Item("CommandParameter") = $red
-    $psISE.Options.ConsoleTokenColors.Item("Comment") = if ($Dark) { $base01 } else { $base1 }
-    $psISE.Options.ConsoleTokenColors.Item("GroupEnd") = if ($Dark) { $base1 } else { $base01 }
-    $psISE.Options.ConsoleTokenColors.Item("GroupStart") = if ($Dark) { $base1 } else { $base01 }
-    $psISE.Options.ConsoleTokenColors.Item("Keyword") = $green
-    $psISE.Options.ConsoleTokenColors.Item("LineContinuation") = if ($Dark) { $base0 } else { $base00 }
-    $psISE.Options.ConsoleTokenColors.Item("LoopLabel") = if ($Dark) { $base1 } else { $base01 }
-    $psISE.Options.ConsoleTokenColors.Item("Member") = if ($Dark) { $base0 } else { $base00 }
-    $psISE.Options.ConsoleTokenColors.Item("NewLine") = if ($Dark) { $base0 } else { $base00 }
-    $psISE.Options.ConsoleTokenColors.Item("Number") = $cyan
-    $psISE.Options.ConsoleTokenColors.Item("Operator") = if ($Dark) { $base0 } else { $base00 }
-    $psISE.Options.ConsoleTokenColors.Item("Position") = if ($Dark) { $base0 } else { $base00 }
-    $psISE.Options.ConsoleTokenColors.Item("StatementSeparator") = if ($Dark) { $base1 } else { $base01 }
-    $psISE.Options.ConsoleTokenColors.Item("String") = $cyan
-    $psISE.Options.ConsoleTokenColors.Item("Type") = $violet
-    $psISE.Options.ConsoleTokenColors.Item("Unknown") = if ($Dark) { $base0 } else { $base00 }
-    $psISE.Options.ConsoleTokenColors.Item("Variable") = $orange
+  # Token colors in the console pane. Skipping comments as these are same as the token definitions in the Script pane (defined above).
+  $psISE.Options.ConsoleTokenColors.Item("Attribute") = $yellow
+  $psISE.Options.ConsoleTokenColors.Item("Command") = if ($Dark) { $base1 } else { $base01 }
+  $psISE.Options.ConsoleTokenColors.Item("CommandArgument") = $blue
+  $psISE.Options.ConsoleTokenColors.Item("CommandParameter") = $red
+  $psISE.Options.ConsoleTokenColors.Item("Comment") = if ($Dark) { $base01 } else { $base1 }
+  $psISE.Options.ConsoleTokenColors.Item("GroupEnd") = if ($Dark) { $base1 } else { $base01 }
+  $psISE.Options.ConsoleTokenColors.Item("GroupStart") = if ($Dark) { $base1 } else { $base01 }
+  $psISE.Options.ConsoleTokenColors.Item("Keyword") = $green
+  $psISE.Options.ConsoleTokenColors.Item("LineContinuation") = if ($Dark) { $base0 } else { $base00 }
+  $psISE.Options.ConsoleTokenColors.Item("LoopLabel") = if ($Dark) { $base1 } else { $base01 }
+  $psISE.Options.ConsoleTokenColors.Item("Member") = if ($Dark) { $base0 } else { $base00 }
+  $psISE.Options.ConsoleTokenColors.Item("NewLine") = if ($Dark) { $base0 } else { $base00 }
+  $psISE.Options.ConsoleTokenColors.Item("Number") = $cyan
+  $psISE.Options.ConsoleTokenColors.Item("Operator") = if ($Dark) { $base0 } else { $base00 }
+  $psISE.Options.ConsoleTokenColors.Item("Position") = if ($Dark) { $base0 } else { $base00 }
+  $psISE.Options.ConsoleTokenColors.Item("StatementSeparator") = if ($Dark) { $base1 } else { $base01 }
+  $psISE.Options.ConsoleTokenColors.Item("String") = $cyan
+  $psISE.Options.ConsoleTokenColors.Item("Type") = $violet
+  $psISE.Options.ConsoleTokenColors.Item("Unknown") = if ($Dark) { $base0 } else { $base00 }
+  $psISE.Options.ConsoleTokenColors.Item("Variable") = $orange
 
-    # When you hover over the outlining lines there's a brief flash of white background in the script pane
-    # I don't know any workaround so I disable Outlining altogether. 
-    $psISE.Options.ShowOutlining = $false
-  }
+  # When you hover over the outlining lines there's a brief flash of white background in the script pane
+  # I don't know any workaround so I disable Outlining altogether. 
+  $psISE.Options.ShowOutlining = $false
 }
 
 Write-Verbose "All done!"
