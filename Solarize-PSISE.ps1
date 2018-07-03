@@ -115,6 +115,7 @@ $bgCol = if ($Dark) { $base03 } else { $base3 }
 $primaryCol = if ($Dark) { $base0 } else { $base00 }
 $emphasizeCol = if ($Dark) { $base1 } else { $base01 }
 $secondaryCol = if ($Dark) { $base01 } else { $base1 }
+$highlightCol = if ($Dark) { $base02 } else { $base2 }
 
 ## Variables for the fonts
 ## These are the default PowerShell font and size; change if you want to.
@@ -183,11 +184,11 @@ $psISE.Options.TokenColors.Item("Unknown") = $primaryCol
 # Variables.
 $psISE.Options.TokenColors.Item("Variable") = $orange
 
-# Setting the background color of various messages to that of highlighted text of dark theme. 
-$psISE.Options.ErrorBackgroundColor = $base02
-$psISE.Options.WarningBackgroundColor = $base02
-$psISE.Options.VerboseBackgroundColor = $base02
-$psISE.Options.DebugBackgroundColor = $base02
+# Setting the background color of various messages to that of highlighted text of current theme. 
+$psISE.Options.ErrorBackgroundColor = $highlightCol
+$psISE.Options.WarningBackgroundColor = $highlightCol
+$psISE.Options.VerboseBackgroundColor = $highlightCol
+$psISE.Options.DebugBackgroundColor = $highlightCol
 
 # I read somewhere that error messages are better off being in a different color than $red so as to not put you off.
 $psISE.Options.ErrorForegroundColor = $green
