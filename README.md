@@ -1,4 +1,7 @@
 # Solarize-PSISE
+
+> **NOTE: I don't use PowerShell ISE any more so this hasn't been updated in ages.**
+
 ## What is it?
 Solarized is a sixteen color palette (eight monotones, eight accent colors) designed for use with terminal and gui applications. You can read more about it [here](http://ethanschoonover.com/solarized). 
 
